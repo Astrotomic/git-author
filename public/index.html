@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="build/tailwind.css">
+</head>
+
+<body class="bg-gray-100">
+  <div class="min-h-screen bg-gray-100">
+    <nav class="bg-white shadow-sm">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                alt="Workflow">GitHub Author Search
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  
+    <div class="py-10">
+      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div x-ref="demo" class="w-1/2">
+          <div x-data="userSearch()" x-init="fetchUser()" class="mx-auto flex flex-col py-4">
+            <div class="w-2/3">
+              <label for="gitUserSearch" class="block text-sm font-medium text-gray-700">Search Users</label>
+              <div class="mt-1 flex rounded-md shadow-sm">
+                <div class="relative flex items-stretch flex-grow focus-within:z-10">
+                  <input type="text" name="gitUserSearch" id="gitUserSearch" x-model="gitUserSearch"
+                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300"
+                    placeholder="John Doe">
+                </div>
+                <button
+                  type="submit" @click="fetchUser()"
+                  class="-ml-px relative inline-flex items-center md:space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-300 focus:border-indigo-300"
+                  :class="[ isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-500 hover:text-gray-100' ]" :disabled="isLoading">
+                  <svg class="hidden md:block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <span>Search</span>
+                </button>
+              </div>
+              <div class="mt-8">
+                <template x-if="user">
+                  <div class="flex items-center">
+                    <div class="hidden md:block md:mr-4">
+                      <img class="rounded w-32" :src="user.avatar_url" alt="">
+                    </div>
+                    <div class="text-sm">
+                      <h3 class="text-gray-900 font-bold uppercase leading-none mb-2" x-text="user.login"></h3>
+                      <p x-text="user.name"></p>
+                      <p x-text='`${user.id}+${user.login}@users.noreply.github.com`'></p>
+                    </div>
+                  </div>
+                </template>
+                <script type="text/javascript">
+                  function userSearch() {
+                    return {
+                      gitUserSearch: "octocat",
+                      user: null,
+                      isLoading: false,
+                      fetchUser() {
+                        this.isLoading = true;
+                        fetch(`https://api.github.com/users/${this.gitUserSearch}`)
+                          .then((res) => res.json())
+                          .then((data) => {
+                            this.isLoading = false;
+                            this.user = data;
+                          });
+                      },
+                    };
+                  }
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

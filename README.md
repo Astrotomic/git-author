@@ -1,2 +1,2 @@
 # git-author
-Creates GitHub author by username
+Creates GitHub author email by username
