@@ -8,6 +8,11 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css">
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
 </head>
 <body class="bg-gray-50">
 
@@ -39,7 +44,7 @@
     <!-- start:hero -->
     <div class="text-center">
       <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-        <span class="block lg:inline">GitHub Author </span>
+        <span class="block lg:inline">GitHub Author</span>
         <span class="block text-blue-600 lg:inline">Search</span>
       </h1>
       <p class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
@@ -78,7 +83,7 @@
         </div>
 
         <!-- start:error -->
-        <template x-if="error">
+        <template x-if="error" hidden>
           <div x-text="error" class="mt-1 text-sm text-red-500"></div>
         </template>
         <!-- end:error -->
@@ -86,7 +91,7 @@
       <!-- end:form -->
 
       <!-- start:result -->
-      <div x-show="$store.github.users.length > 0">
+      <div x-show="$store.github.users.length > 0" x-cloak>
 
         <div class="flex justify-between items-center space-x-4">
           <h2 class="text-lg text-medium">Results</h2>
